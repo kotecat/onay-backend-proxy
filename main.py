@@ -1,26 +1,38 @@
+import logging
+
 import uvicorn
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from config import settings
-from services import close_client
+from services import proxy as proxy_service
 from routers import overrides, proxy
+import log_config
+
+
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("Starting FastAPI application...")
+    yield
+    logger.info("Shutting down FastAPI application...")
+    await proxy_service.close_client()
+    logger.info("FastAPI application shutdown complete.")
 
 app = FastAPI(
     title="Reverse Proxy",
-    docs_url="/proxy-docs" if settings.APP_DEBUG else None,
+    docs_url="/docs" if settings.APP_DEBUG else None,
     redoc_url=None,
+    lifespan=lifespan,
 )
-
-# ── Lifespan events ───────────────────────────────────────────────────────────
-
-@app.on_event("shutdown")
-async def on_shutdown():
-    await close_client()
 
 
 # ── Routers (order matters: overrides first, catch-all last) ──────────────────
 
-app.include_router(overrides.router)
+if settings.FAKE_PAYMENT_ENABLED:
+    app.include_router(overrides.fp_router)
 app.include_router(proxy.router)
 
 

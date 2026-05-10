@@ -6,7 +6,7 @@ transparently to the upstream backend.
 from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 
-from services import forward_request
+from services import proxy
 
 router = APIRouter(tags=["proxy"])
 
@@ -22,7 +22,7 @@ _SKIP_RESPONSE_HEADERS = {
 
 @router.api_route("/{path:path}", methods=PROXY_METHODS)
 async def catch_all(path: str, request: Request):
-    upstream = await forward_request(request, path)
+    upstream = await proxy.forward_request(request, path)
 
     headers = {
         k: v
