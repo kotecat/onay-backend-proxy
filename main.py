@@ -1,5 +1,5 @@
+import log_config
 import logging
-
 import uvicorn
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -7,10 +7,14 @@ from fastapi import FastAPI
 from config import settings
 from services import proxy as proxy_service
 from routers import overrides, proxy
-import log_config
+import services
 
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(
+    level=settings.LOG_LEVEL,
+    handlers=[log_config.handler],
+)
 
 
 @asynccontextmanager

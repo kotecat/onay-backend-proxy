@@ -19,12 +19,6 @@ formatter = ColoredFormatter(
 handler = logging.StreamHandler()
 handler.setFormatter(formatter)
 
-logging.basicConfig(
-    level=settings.LOG_LEVEL,
-    handlers=[handler],
-    force=True
-)
-
 THIRD_PARTY_LOGGERS = [
     "uvicorn",
     "uvicorn.error",

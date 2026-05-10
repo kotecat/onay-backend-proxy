@@ -42,7 +42,7 @@ async def get_tickets(request: Request) -> dict:
             payload = order.get("payload", {})
             data["result"]["data"].append(order)
             logger.info(
-                f"Added order "
+                f"Added order"
                 f"term={payload.get('terminal')} "
                 f"bus={payload.get('conductor')} "
                 f"route={payload.get('route')} "
