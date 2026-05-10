@@ -14,7 +14,7 @@ from .pan import get_card_pan_by_token
 base_storage = Path(settings.ORDER_DIRECTORY)
 base_storage.mkdir(parents=True, exist_ok=True)
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("s.FP")
 
 
 async def get_tickets(request: Request) -> dict:
@@ -42,7 +42,7 @@ async def get_tickets(request: Request) -> dict:
             payload = order.get("payload", {})
             data["result"]["data"].append(order)
             logger.info(
-                f"Added order "
+                f"Added ticket "
                 f"term={payload.get('terminal')} "
                 f"bus={payload.get('conductor')} "
                 f"route={payload.get('route')} "

@@ -6,8 +6,7 @@ endpoints here to modify requests or responses.
 from fastapi import APIRouter, Request, Query
 from fastapi.responses import JSONResponse
 
-from services import fake_payment as fp
-from config import settings
+from services import fake_pay as fp
 
 
 fp_router = APIRouter(tags=["fake-payment"])

@@ -5,7 +5,7 @@ from fastapi import Request
 from .proxy import client, _proxy_headers
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("s.PAN")
 
 
 async def get_card_pan_by_token(request: Request) -> str | None:
