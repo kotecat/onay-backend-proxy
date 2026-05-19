@@ -2,7 +2,7 @@ services:
   proxy:
     build: .
     network_mode: host
-    restart: unless-stopped
+    restart: always
     volumes:
       - .:/app
     env_file:
